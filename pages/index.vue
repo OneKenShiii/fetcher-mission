@@ -102,7 +102,7 @@ button {
       lost-move: -1/2 0 0;
     }
     &-tail {
-      lost-move: 1/2 0 0;
+      lost-move: 1/2+ 0 0;
     }
   }
 
