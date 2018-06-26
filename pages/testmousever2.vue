@@ -1,11 +1,11 @@
 <template >
-  <div class="container">
-    <div id='app'>
+  <div class="container"
+    @mousemove="doDrag">
       <div
         class="dragstartzone"
         @mousedown="startDrag"
-        @mousemove="doDrag">
-        <div id="1" class="box-pic" style="display:block" draggable="false">
+      >
+        <div id="1" class="box-pic" style="display:block" >
           <img src="./pic/1.png" draggable="false" >
         </div>
         <div id="2" class="box-pic">
@@ -62,31 +62,32 @@
         <div id="19" class="box-pic">
           <img src="./pic/19.png" draggable="false">
         </div>
-      <div>X: {{ x1 }}, Y: {{ y1 }}</div>
+      <!-- <div>X: {{ x1 }}, Y: {{ y1 }}</div>
       <div>X: {{ x2 }}, Y: {{ y2 }}</div>
-      <div>{{ index }}</div>
+      <div>index : {{ index }}</div>
+      <div>maxx : {{ maxx }}</div> -->
     </div>
-  </div>
+  <!-- </div> -->
 </div>
 </template>
 
 <script>
 
 export default {
-    el: '#app',
     data() {
       return {
         dragging: false,
         index: 1,
         x1: 0,
         y1: 0,
-        x2: 0,
+        x2: 1,
         y2: 0,
-        modx: 0
+        modx: 0,
+        maxx: 0
       }
       },
     methods: {
-      startDrag() {
+      startDrag(event) {
         this.x1 =event.clientX;
         this.y1 = event.clientY;
         this.dragging = true;
@@ -94,7 +95,7 @@ export default {
       stopDrag() {
         this.dragging = false;
         this.x2 = this.y2 = 0;
-        this.x1 = this.y1 =0;
+        this.x1 = this.y1 = this.maxx = 0;
       },
       doDrag(event) {
         if (this.dragging) {
@@ -103,37 +104,30 @@ export default {
 
           if(this.x2>this.x1){
             this.modx = this.x2-this.x1;
-            if(this.modx%5==0){
+            if(this.modx%2==0){
               document.getElementById(this.index).style.display = "none";
               this.index = this.index+1;
               if (this.index == 20) {
                 this.index=1;
               }
               document.getElementById(this.index).style.display = "block";
+              this.x1 = this.x2;
             }
           }
           if(this.x2<this.x1){
             this.modx = this.x1-this.x2;
-            if(this.modx%5==0){
+            if(this.modx%2==0){
               document.getElementById(this.index).style.display = "none";
               this.index = this.index-1;
               if (this.index == 0) {
                 this.index=19;
               }
               document.getElementById(this.index).style.display = "block";
+              this.x1 = this.x2;
             }
           }
         }
       },
-      addindex() {
-        document.getElementById(this.index).style.display = "none";
-        this.index = this.index+1;
-        if (this.index == 5) {
-          this.index=1;
-        }
-        document.getElementById(this.index).style.display = "block";
-      },
-
     },
     mounted() {
       window.addEventListener('mouseup', this.stopDrag);
@@ -149,13 +143,12 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
   }
   .dragstartzone {
     display: flex;
-    border: 2px solid black;
-    top: 10px;
-    left: 10px;
+    justify-content: center;
+    align-items: center;
+    user-select: none; /* Standard syntax */
 }
   .box-pic {
   display: none;

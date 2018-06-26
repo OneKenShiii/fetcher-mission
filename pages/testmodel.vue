@@ -64,8 +64,8 @@ export default {
     flex-direction: column;
   }
   .box {
-    height: 400px;
-    width: 600px;
+    /* height: 400px;
+    width: 600px; */
     border: 3px solid black;
   }
   .box-button {
